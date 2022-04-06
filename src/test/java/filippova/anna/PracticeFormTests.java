@@ -1,20 +1,19 @@
 package filippova.anna;
 
+import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Configuration;
-import com.codeborne.selenide.SelenideElement;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
 
-public class PracticeForm {
+public class PracticeFormTests {
 
     @BeforeAll
     static void setUp() {
-        Configuration.holdBrowserOpen = true;
+        //Configuration.holdBrowserOpen = true;
         Configuration.baseUrl = "https://demoqa.com";
         Configuration.browserSize = "1920x1080";
     }
@@ -28,12 +27,13 @@ public class PracticeForm {
         String mobileNumber = "9998887766";
         String subjects = "Arts";
         String hobbies = "Music";
+        String picture = "picture.jpg";
         String currentAddress = "Some street 1";
-        String permanentAddress = "Another street 2";
+        String state = "Haryana";
+        String city = "Karnal";
 
         open("/automation-practice-form");
 
-        //Asserts
         $("[id=firstName]").setValue(firstName);
         $("[id=lastName]").setValue(lastName);
         $("[id=userEmail]").setValue(email);
@@ -43,10 +43,31 @@ public class PracticeForm {
         $(".react-datepicker__month-select").selectOption("April");
         $(".react-datepicker__year-select").selectOption("1998");
         $("[aria-label='Choose Wednesday, April 22nd, 1998']").click();
-        $("#subjectsInput").setValue(subjects).pressEnter();
+        $("#subjectsInput").sendKeys("a");
+        $("#subjectsWrapper").$(byText(subjects)).click();
         $("[id=hobbiesWrapper]").$(byText(hobbies)).click();
-        //$("[id=uploadPicture]").click();
+        $("[id=uploadPicture]").uploadFromClasspath(picture);
+        $("[id=currentAddress]").setValue(currentAddress);
+        $("[id=state]").click();
+        $("[id=stateCity-wrapper]").$(byText(state)).click();
+        $("[id=city]").click();
+        $("[id=stateCity-wrapper]").$(byText(city)).click();
+        $("[id=submit]").click();
 
+        //Asserts
+        $("[id=example-modal-sizes-title-lg]").shouldHave(Condition.text("Thanks for submitting the form"));
+        $(".table-responsive").shouldHave(Condition.text(firstName + " " + lastName),
+                Condition.text(email),
+                Condition.text(gender),
+                Condition.text(mobileNumber),
+                Condition.text("22 April,1998"),
+                Condition.text(subjects),
+                Condition.text(hobbies),
+                Condition.text(picture),
+                Condition.text(currentAddress),
+                Condition.text(state + " " + city)
+        );
+        $("[id=closeLargeModal]").click();
     }
 
 }
