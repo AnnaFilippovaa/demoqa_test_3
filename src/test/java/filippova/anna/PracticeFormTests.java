@@ -1,19 +1,16 @@
 package filippova.anna;
 
-import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.Configuration;
 import com.github.javafaker.Faker;
 import filippova.anna.pages.RegistrationFormPage;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.Locale;
 
-import static com.codeborne.selenide.Selectors.byText;
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.open;
+import static io.qameta.allure.Allure.step;
 
-public class PracticeFormTests {
+public class PracticeFormTests extends TestBase {
 
     Faker fakerEn = new Faker(new Locale("en"));
     Faker fakerRu = new Faker(new Locale("ru"));
@@ -33,41 +30,42 @@ public class PracticeFormTests {
             city = "Karnal",
             title = "Thanks for submitting the form";
 
-    @BeforeAll
-    static void setUp() {
-        Configuration.holdBrowserOpen = true;
-        Configuration.baseUrl = "https://demoqa.com";
-        Configuration.browserSize = "1920x1080";
-    }
-
     @Test
+    @DisplayName("Successful fill registration test")
     void fillFormTest() {
-        registrationFormPage.openPage()
-                .setFirstName(firstName)
-                .setLastName(lastName)
-                .setEmail(email)
-                .setGender(gender)
-                .setUserNumber(userNumber)
-                .setBirthDate("22", "April", "1998")
-                .setSubjects(keyForSubjects, subjects)
-                .setHobbies(hobbies)
-                .uploadPicture(picture)
-                .setCurrentAddress(currentAddress)
-                .setState(state)
-                .setCity(city)
-                .clickSubmit()
-                .checkResultTitle(title)
-                .checkResultStudentName("Student Name", firstName, lastName)
-                .checkResultStudentEmail("Email", email)
-                .checkResultGender("Gender", gender)
-                .checkResultMobile("Mobile", userNumber)
-                .checkResultDateOfBirth("Date of Birth", "22 April,1998")
-                .checkResultSubjects("Subjects", subjects)
-                .checkResultHobbies("Hobbies", hobbies)
-                .checkResultPicture("Picture", picture)
-                .checkResultAddress("Address", currentAddress)
-                .checkResultStateAndCity("State and City", state, city)
-                .closeResult();
+        step("Open registration form", () -> {
+            registrationFormPage.openPage();
+        });
 
+        step("Fill registration form", () -> {
+            registrationFormPage.setFirstName(firstName)
+                    .setLastName(lastName)
+                    .setEmail(email)
+                    .setGender(gender)
+                    .setUserNumber(userNumber)
+                    .setBirthDate("22", "April", "1998")
+                    .setSubjects(keyForSubjects, subjects)
+                    .setHobbies(hobbies)
+                    .uploadPicture(picture)
+                    .setCurrentAddress(currentAddress)
+                    .setState(state)
+                    .setCity(city)
+                    .clickSubmit();
+        });
+
+        step("Verify form data", () -> {
+            registrationFormPage.checkResultTitle(title)
+                    .checkResultStudentName("Student Name", firstName, lastName)
+                    .checkResultStudentEmail("Student Email", email)
+                    .checkResultGender("Gender", gender)
+                    .checkResultMobile("Mobile", userNumber)
+                    .checkResultDateOfBirth("Date of Birth", "22 April,1998")
+                    .checkResultSubjects("Subjects", subjects)
+                    .checkResultHobbies("Hobbies", hobbies)
+                    .checkResultPicture("Picture", picture)
+                    .checkResultAddress("Address", currentAddress)
+                    .checkResultStateAndCity("State and City", state, city)
+                    .closeResult();
+        });
     }
 }
