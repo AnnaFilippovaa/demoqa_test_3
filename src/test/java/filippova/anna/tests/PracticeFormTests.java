@@ -1,8 +1,7 @@
-package filippova.anna;
+package filippova.anna.tests;
 
 import com.github.javafaker.Faker;
 import filippova.anna.pages.RegistrationFormPage;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
