@@ -17,8 +17,13 @@ public class TestBase {
         //Configuration.holdBrowserOpen = true;
         SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
 
+//        String chooseBrowser = System.getProperty("chooseBrowser","chrome");
+//        String baseUrl = System.getProperty("baseUrl", "https://demoqa.com");
+//        String browserSize = System.getProperty("browserSize", "1920x1980");
+
+//        Configuration.browser = chooseBrowser;
         Configuration.baseUrl = "https://demoqa.com";
-        Configuration.browserSize = "1920x1080";
+        Configuration.browserSize = "1920x1980";
         Configuration.remote = "https://user1:1234@selenoid.autotests.cloud/wd/hub";
 
         DesiredCapabilities capabilities = new DesiredCapabilities();
