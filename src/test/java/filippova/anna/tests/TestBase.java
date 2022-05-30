@@ -14,16 +14,16 @@ public class TestBase {
 
     @BeforeAll
     static void setUp() {
-        //Configuration.holdBrowserOpen = true;
-        SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
+//        Configuration.holdBrowserOpen = true;
+       SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
 
-//        String chooseBrowser = System.getProperty("chooseBrowser","chrome");
-//        String baseUrl = System.getProperty("baseUrl", "https://demoqa.com");
-//        String browserSize = System.getProperty("browserSize", "1920x1980");
+        String browser = System.getProperty("browser","chrome");
+        String baseUrl = System.getProperty("baseUrl", "https://demoqa.com");
+        String browserSize = System.getProperty("browserSize", "1920x1980");
 
-//        Configuration.browser = chooseBrowser;
-        Configuration.baseUrl = "https://demoqa.com";
-        Configuration.browserSize = "1920x1980";
+        Configuration.browser = browser;
+        Configuration.baseUrl = baseUrl;
+        Configuration.browserSize = browserSize;
         Configuration.remote = "https://user1:1234@selenoid.autotests.cloud/wd/hub";
 
         DesiredCapabilities capabilities = new DesiredCapabilities();
