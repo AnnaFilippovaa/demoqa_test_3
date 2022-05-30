@@ -5,6 +5,7 @@ import filippova.anna.pages.RegistrationFormPage;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.nio.file.Paths;
 import java.util.Locale;
 
 import static io.qameta.allure.Allure.step;
@@ -23,7 +24,8 @@ public class PracticeFormTests extends TestBase {
             keyForSubjects = "a",
             subjects = "Arts",
             hobbies = "Music",
-            picture = "picture.jpg",
+            picturePath = "img/picture.jpg",
+            pictureFileName = Paths.get(picturePath).getFileName().toString(),
             currentAddress = fakerRu.address().fullAddress(),
             state = "Haryana",
             city = "Karnal",
@@ -45,7 +47,7 @@ public class PracticeFormTests extends TestBase {
                     .setBirthDate("22", "April", "1998")
                     .setSubjects(keyForSubjects, subjects)
                     .setHobbies(hobbies)
-                    .uploadPicture(picture)
+                    .uploadPicture(picturePath)
                     .setCurrentAddress(currentAddress)
                     .setState(state)
                     .setCity(city)
@@ -61,7 +63,7 @@ public class PracticeFormTests extends TestBase {
                     .checkResultDateOfBirth("Date of Birth", "22 April,1998")
                     .checkResultSubjects("Subjects", subjects)
                     .checkResultHobbies("Hobbies", hobbies)
-                    .checkResultPicture("Picture", picture)
+                    .checkResultPicture("Picture", pictureFileName)
                     .checkResultAddress("Address", currentAddress)
                     .checkResultStateAndCity("State and City", state, city)
                     .closeResult();
